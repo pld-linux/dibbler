@@ -12,9 +12,6 @@
 # Get network config
 . /etc/sysconfig/network
 
-# Get service config
-#[ -f /var/lib/dibbler/server.conf ] && . /var/lib/dibbler/server.conf
-
 # Check that networking is up.
 if is_yes "${NETWORKING}"; then
 	if [ ! -f /var/lock/subsys/network -a "$1" != stop -a "$1" != status ]; then
@@ -33,7 +30,7 @@ case "$1" in
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/dibbler ]; then
 		msg_starting dibbler
-		dibbler-server start
+		daemon /usr/sbin/dibbler-server start
 		RETVAL=$?
 		[ $RETVAL -eq 0 ] && 
 		touch /var/lock/subsys/dibbler
@@ -42,10 +39,10 @@ case "$1" in
 	fi
 	;;
   stop)
-	# Stop daemons.
+	# Stop daemon.
 	if [ -f /var/lock/subsys/dibbler ]; then
 		msg_stopping dibbler
-		dibbler-server stop
+		killproc dibbler-server
 		RET=$?
 		if [ $RET -eq 0 ]; then
 			rm -f /var/lock/subsys/dibbler /var/run/dibbler.pid >/dev/null 2>&1
