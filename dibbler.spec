@@ -2,7 +2,7 @@ Summary:	Dibbler - a portable DHCPv6
 Summary(pl):	Dibbler - przeno¶ny DHCPv6
 Name:		dibbler
 Version:	0.3.1
-Release:	0.1
+Release:	0.2
 License:	GPL v2
 Group:		Networking/Daemons
 Source0:	http://klub.com.pl/dhcpv6/%{name}-%{version}-src.tar.gz
@@ -10,6 +10,7 @@ Source0:	http://klub.com.pl/dhcpv6/%{name}-%{version}-src.tar.gz
 Patch0:		%{name}-Makefile.patch
 URL:		http://klub.com.pl/dhcpv6/
 #BuildRequires:	bison++ >= 1.21.9
+BuildRequires:	chkconfig
 BuildRequires:	flex
 BuildRequires:	libstdc++-devel
 BuildRequires:	libxml2-devel
@@ -45,33 +46,68 @@ dokumentacja (zarówno dla u¿ytkowników, jak i programistów).
 #%description doc -l pl
 #Dokumentacja dla Dibblera - przeno¶nego DHCPv6
 
+#%package client
+#Summary:	Dibbler DHCPv6 client
+#Summary(pl):	Dibbler - klient DHCPv6
+#Group:		Networking/Daemons
+
+#%description client
+#DHCPv6 protocol client.
+
+#%description client -l pl
+#Klient protokolu DHCPv6
+
 %prep
 %setup -q -n %{name}
 %patch0 -p0
 
 %build
-%{__make} \
-	ARCH=LINUX \
-	CFLAGS="%{rpmcflags}" \
-	CPP="%{__cpp}" \
-	CXX="%{__cxx}" \
-	CC="%{__cc}"
+#%{__make} \
+#	ARCH=LINUX \
+#	CFLAGS="%{rpmcflags}" \
+#	CPP="%{__cpp}" \
+#	CXX="%{__cxx}" \
+#	CC="%{__cc}" \
+#	server \
+#	client
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8,%{_sharedstatedir}/dibbler}
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8} \
+	$RPM_BUILD_ROOT{%{_sharedstatedir}/%{name},%{_sysconfdir}/%{name}}
 
 install dibbler-{client,server} $RPM_BUILD_ROOT%{_sbindir}
-install *.conf $RPM_BUILD_ROOT%{_sharedstatedir}/dibbler
+install *.conf $RPM_BUILD_ROOT%{_sharedstatedir}/%{name}
 install doc/man/* $RPM_BUILD_ROOT%{_mandir}/man8
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+ln -s %{_sharedstatedir}/%{name}/client.conf %{_sysconfdir}/%{name}/client.conf
+ln -s %{_sharedstatedir}/%{name}/server.conf %{_sysconfdir}/%{name}/server.conf
+/sbin/chkconfig -add dibbler
+
+%preun
+if [ "$1" = "0" ];then
+        if [ -f /var/lock/subsys/dhcpd ]; then
+                /etc/rc.d/init.d/dhcpd stop >&2
+        fi
+        /sbin/chkconfig --del dhcpd
+fi
+
+#%post client
+#if [ -d %{_sharedstatedir}/%{name} ]; then
+#install -d %{_sharedstatedir}/%{name}
+#fi
+
 %files
 %defattr(644,root,root,755)
-%doc CHANGELOG GUIDELINES RELNOTES TODO WILD-IDEAS
+%doc CHANGELOG FUN LICENSE GUIDELINES RELNOTES TODO VERSION WILD-IDEAS 
+%doc server.conf server-stateless.conf doc/man/*
 %attr(755,root,root) %{_sbindir}/*
+%{_sbindir}/dibbler-server
+%{_sbindir}/dibbler-client
 %dir %{_sharedstatedir}/%{name}
 %config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/*.conf
 %{_mandir}/man8/*.8*
