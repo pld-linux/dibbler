@@ -12,9 +12,7 @@ Source1:	http://klub.com.pl/dhcpv6/%{name}-%{version}-doc.tar.gz
 Source2:	%{name}.init
 Patch0:		%{name}-Makefile.patch
 URL:		http://klub.com.pl/dhcpv6/
-BuildRequires:	flex
 BuildRequires:	libstdc++-devel
-BuildRequires:	libxml2-devel
 BuildRequires:	pkgconfig
 Requires(post,preun):	/sbin/chkconfig
 Provides:	dhcpv6-server
