@@ -59,7 +59,7 @@ DHCPv6 protocol client.
 Klient protoko³u DHCPv6.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q
 
 %build
 %{__make} server client relay\
@@ -72,7 +72,7 @@ Klient protoko³u DHCPv6.
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8} \
-	$RPM_BUILD_ROOT{%{_sharedstatedir}/%{name},%{_sysconfdir}/{rc.d/init.d,dibbler}}
+	$RPM_BUILD_ROOT{%{_sharedstatedir}/%{name},/etc/{rc.d/init.d,dibbler}}
 
 install dibbler-{client,server,relay} $RPM_BUILD_ROOT%{_sbindir}
 install *.conf $RPM_BUILD_ROOT%{_sharedstatedir}/%{name}
@@ -111,7 +111,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGELOG LICENSE RELNOTES VERSION 
+%doc CHANGELOG RELNOTES VERSION 
 %doc server.conf server-stateless.conf server-relay.conf doc/man/dibbler-server.8
 %attr(755,root,root) %{_sbindir}/dibbler-server
 %attr(755,root,root) %{_sbindir}/dibbler-relay
@@ -121,9 +121,9 @@ fi
 %config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/server.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/server-relay.conf
 %dir %{_sysconfdir}/%{name}
-%{_sysconfdir}/%{name}/relay.conf
-%{_sysconfdir}/%{name}/server.conf
-%{_sysconfdir}/%{name}/server-relay.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/relay.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/server.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/server-relay.conf
 %{_mandir}/man8/*.8*
 
 %files client
@@ -131,10 +131,8 @@ fi
 %doc CHANGELOG LICENSE RELNOTES VERSION
 %doc client.conf client-stateless.conf doc/man/dibbler-client.8
 %attr(755,root,root) %{_sbindir}/dibbler-client
-%dir %{_sharedstatedir}/%{name}
 %config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/client.conf
-%dir %{_sysconfdir}/%{name}
-%{_sysconfdir}/%{name}/client.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/client.conf
 %{_mandir}/man8/*.8*
 
 %files doc
