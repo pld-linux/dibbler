@@ -62,14 +62,14 @@ dokumentacja (zarówno dla u¿ytkowników, jak i programistów).
 %patch0 -p0
 
 %build
-#%{__make} \
-#	ARCH=LINUX \
-#	CFLAGS="%{rpmcflags}" \
-#	CPP="%{__cpp}" \
-#	CXX="%{__cxx}" \
-#	CC="%{__cc}" \
-#	server \
-#	client
+%{__make} \
+	ARCH=LINUX \
+	CFLAGS="%{rpmcflags}" \
+	CPP="%{__cpp}" \
+	CXX="%{__cxx}" \
+	CC="%{__cc}" \
+	server \
+	client
 
 %install
 rm -rf $RPM_BUILD_ROOT
