@@ -1,7 +1,8 @@
 #!/bin/sh
-#	Dibbler server
-#
-# processname:	dibbler
+# 
+# dibbler	DHCPv6 Server
+# chkconfig:	345 93 11
+# description:	portable DHCPv6
 # pidfile:	/var/run/dibbler.pid
 # config:	/var/lib/dibbler/server.conf
 
@@ -12,6 +13,7 @@
 # Get network config
 . /etc/sysconfig/network
 
+#[ -f /etc/sysconfig/dibbler ] && . /etc/sysconfig/dibbler
 # Check that networking is up.
 if is_yes "${NETWORKING}"; then
 	if [ ! -f /var/lock/subsys/network -a "$1" != stop -a "$1" != status ]; then
@@ -54,7 +56,7 @@ case "$1" in
   status)
 	dibbler-server status
 	;;
-  reload|restart)
+  reload|restart|force-restart)
   	$0 stop
 	$0 start
 	;;
