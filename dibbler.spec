@@ -5,12 +5,11 @@ Version:	0.4.0
 Release:	0.3
 License:	GPL v2
 Group:		Networking/Daemons
-Source0:	http://klub.com.pl/dhcpv6/%{name}-%{version}-src.tar.gz
+Source0:	http://klub.com.pl/dhcpv6/%{name}/%{name}-%{version}-src.tar.gz
 # Source0-md5:	2056e15305c9e5432bf7ad853e3f864c
-Source1:	http://klub.com.pl/dhcpv6/%{name}-%{version}-doc.tar.gz
+Source1:	http://klub.com.pl/dhcpv6/%{name}/%{name}-%{version}-doc.tar.gz
 # Source1-md5:	576168d8cf3eb5ffe82dde05338cb902
 Source2:	%{name}.init
-Patch0:		%{name}-Makefile.patch
 URL:		http://klub.com.pl/dhcpv6/
 BuildRequires:	libstdc++-devel
 BuildRequires:	pkgconfig
@@ -61,7 +60,6 @@ Klient protoko³u DHCPv6.
 
 %prep
 %setup -q -n %{name}-%{version}
-#%patch0 -p0
 
 %build
 %{__make} server client relay\
