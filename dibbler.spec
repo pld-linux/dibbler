@@ -1,5 +1,5 @@
 Summary:	Dibbler - a portable DHCPv6
-Summary(pl):	Dibbler - portowalny DHCPv6
+Summary(pl):	Dibbler - przeno¶ny DHCPv6
 Name:		dibbler
 Version:	0.3.1
 Release:	0.1
@@ -18,24 +18,32 @@ BuildRequires:	pkgconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Dibbler is a portable DHCPv6 implementation. Is supports stateful
-(i.e. IPv6 address granting) as well as stateless (i.e. option granting)
-autoconfiguration for IPv6. Currently Linux 2.4/2.6 and Windows XP and
-Windows 2003 ports are available. It features easy to use install packages
-(Clickable Windows installer and RPM and DEB packages for Linux) and
-extensive documentation (both for users as well as developers).
+Dibbler is a portable DHCPv6 implementation. It supports stateful
+(i.e. IPv6 address granting) as well as stateless (i.e. option
+granting) autoconfiguration for IPv6. Currently Linux 2.4/2.6 and
+Windows XP and Windows 2003 ports are available. It features easy to
+use install packages (Clickable Windows installer and RPM and DEB
+packages for Linux) and extensive documentation (both for users as
+well as developers).
 
-#%description -l pl
-# TODO
+%description -l pl
+Dibbler to przeno¶na implementacja DHCPv6. Obs³uguje stanow± (tzn. z
+nadawaniem adresów IPv6), jak i bezstanow± (tzn. z nadawaniem opcji)
+autokonfiguracjê IPv6. Aktualnie dostêpne s± porty dla Linuksa 2.4/2.6
+i Windows XP oraz Windows 2003. Zalety to ³atwa instalacja (klikalny
+instalator pod Windows i pakiety RPM/DEB pod Linuksa) i wyczerpuj±ca
+dokumentacja (zarówno dla u¿ytkowników, jak i programistów).
 
 #%package doc
 #Summary:	Documentation for Dibbler - a portable DHCPv6
-#Summary(pl):	Dokumentacja dla Dibblera - portowalnego DHCPv6
+#Summary(pl):	Dokumentacja dla Dibblera - przeno¶nego DHCPv6
 #Group:		Documentation
 
-#%description subpackage
+#%description doc
+#Documentation for Dibbler - a portable DHCPv6
 
-#%description subpackage -l pl
+#%description doc -l pl
+#Dokumentacja dla Dibblera - przeno¶nego DHCPv6
 
 %prep
 %setup -q -n %{name}
@@ -65,7 +73,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc CHANGELOG GUIDELINES RELNOTES TODO WILD-IDEAS
 %attr(755,root,root) %{_sbindir}/*
 %dir %{_sharedstatedir}/%{name}
-%config(noreplace) %{_sharedstatedir}/%{name}/*.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/*.conf
 %{_mandir}/man8/*.8*
 
 #%files doc
