@@ -7,16 +7,17 @@ License:	GPL v2
 Group:		Networking/Daemons
 Source0:	http://klub.com.pl/dhcpv6/%{name}-%{version}-src.tar.gz
 # Source0-md5:	6bc2b0932f1000ad50624789873115d8
-Source1:	%{name}.init
+Source1:	http://klub.com.pl/dhcpv6/%{name}-%{version}-doc.tar.gz
+# Source1-md5:	615c798ab2ca3b4203a7b0df3187c3d6
+Source2:	%{name}.init
 Patch0:		%{name}-Makefile.patch
 URL:		http://klub.com.pl/dhcpv6/
-#BuildRequires:	bison++ >= 1.21.9
 BuildRequires:	flex
 BuildRequires:	libstdc++-devel
 BuildRequires:	libxml2-devel
 BuildRequires:	pkgconfig
 Requires(post,preun):	/sbin/chkconfig
-#Provides:	dhcpv6-server
+Provides:	dhcpv6-server
 Obsoletes:	dhcpv6
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -37,22 +38,22 @@ i Windows XP oraz Windows 2003. Zalety to ³atwa instalacja (klikalny
 instalator pod Windows i pakiety RPM/DEB pod Linuksa) i wyczerpuj±ca
 dokumentacja (zarówno dla u¿ytkowników, jak i programistów).
 
-#%package doc
-#Summary:	Documentation for Dibbler - a portable DHCPv6
-#Summary(pl):	Dokumentacja dla Dibblera - przeno¶nego DHCPv6
-#Group:		Documentation
+%package doc
+Summary:	Documentation for Dibbler - a portable DHCPv6
+Summary(pl):	Dokumentacja dla Dibblera - przeno¶nego DHCPv6
+Group:		Documentation
 
-#%description doc
-#Documentation for Dibbler - a portable DHCPv6
+%description doc
+Documentation for Dibbler - a portable DHCPv6 (pdf files)
 
-#%description doc -l pl
-#Dokumentacja dla Dibblera - przeno¶nego DHCPv6
+%description doc -l pl
+Dokumentacja dla Dibblera - przeno¶nego DHCPv6 (pliki pdf)
 
 %package client
 Summary:	Dibbler DHCPv6 client
 Summary(pl):	Dibbler - klient DHCPv6
 Group:		Networking/Daemons
-#Provides:	dhcpv6-client
+Provides:	dhcpv6-client
 
 %description client
 DHCPv6 protocol client.
@@ -80,7 +81,9 @@ install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8} \
 install dibbler-{client,server} $RPM_BUILD_ROOT%{_sbindir}
 install *.conf $RPM_BUILD_ROOT%{_sharedstatedir}/%{name}
 install doc/man/* $RPM_BUILD_ROOT%{_mandir}/man8
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/dibbler
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/dibbler
+tar zxf %{SOURCE1} doc/dibbler-user.pdf
+tar zxf %{SOURCE1} doc/dibbler-devel.pdf
 ln -sf %{_sharedstatedir}/%{name}/server.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/server.conf
 ln -sf %{_sharedstatedir}/%{name}/client.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/client.conf
 
@@ -90,7 +93,7 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/ldconfig
 if [ "$1" = "1" ]; then
-	/sbin/chkconfig --add dibbler
+#	/sbin/chkconfig --add dibbler
 	if [ -f /var/lock/subsys/dibbler ]; then
         	/etc/rc.d/init.d/dibbler restart 1>&2
 	else
@@ -100,11 +103,12 @@ fi
 
 
 %preun
+/sbin/ldconfig
 if [ "$1" = "0" ];then
 	if [ -f /var/lock/subsys/dibbler ]; then
 		/etc/rc.d/init.d/dibbler stop >&2
 	fi
-	/sbin/chkconfig --del dibbler
+#	/sbin/chkconfig --del dibbler
 fi
 
 %files
@@ -121,7 +125,7 @@ fi
 
 %files client
 %defattr(644,root,root,755)
-%doc CHANGELOG FUN LICENSE GUIDELINES RELNOTES TODO VERSION WILD-IDEAS
+%doc CHANGELOG LICENSE RELNOTES VERSION
 %doc client.conf client-stateless.conf doc/man/dibbler-client.8
 %attr(755,root,root) %{_sbindir}/dibbler-client
 %dir %{_sharedstatedir}/%{name}
@@ -130,6 +134,6 @@ fi
 %{_sysconfdir}/%{name}/client.conf
 %{_mandir}/man8/*.8*
 
-#%files doc
-#%defattr(644,root,root,755)
-#%doc doc/*.blah
+%files doc
+%defattr(644,root,root,755)
+%doc doc/dibbler-user.pdf doc/dibbler-devel.pdf
