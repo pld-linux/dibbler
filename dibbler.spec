@@ -84,15 +84,22 @@ ln -sf %{_sharedstatedir}/%{name}/client.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{na
 rm -rf $RPM_BUILD_ROOT
 
 %post
+/sbin/ldconfig
 /sbin/chkconfig --add dibbler
+#if [ -f /var/lock/subsys/dibbler ]; then
+#        /etc/rc.d/init.d/dibbler restart 1>&2
+#else
+        echo "Run \"/etc/rc.d/init.d/dibbler start\" to start dibbler DHCP daemon."
+#fi
+
 
 %preun
-if [ "$1" = "0" ];then
-	if [ -f /var/lock/subsys/dhcpd ]; then
-		/etc/rc.d/init.d/dhcpd stop >&2
-	fi
-	/sbin/chkconfig --del dhcpd
-fi
+#if [ "$1" = "0" ];then
+#	if [ -f /var/lock/subsys/dhcpd ]; then
+#		/etc/rc.d/init.d/dhcpd stop >&2
+#	fi
+#	/sbin/chkconfig --del dhcpd
+#fi
 
 %files
 %defattr(644,root,root,755)
