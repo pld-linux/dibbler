@@ -14,7 +14,7 @@ BuildRequires:	flex
 BuildRequires:	libstdc++-devel
 BuildRequires:	libxml2-devel
 BuildRequires:	pkgconfig
-Requires:	chkconfig
+Requires(post,preun):	/sbin/chkconfig
 #Provides:	dhcpd?
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -55,21 +55,19 @@ Group:		Networking/Daemons
 DHCPv6 protocol client.
 
 %description client -l pl
-Klient protokolu DHCPv6
+Klient protoko³u DHCPv6.
 
 %prep
 %setup -q -n %{name}
 %patch0 -p0
 
 %build
-%{__make} \
+%{__make} server client \
 	ARCH=LINUX \
 	CFLAGS="%{rpmcflags}" \
 	CPP="%{__cpp}" \
 	CXX="%{__cxx}" \
-	CC="%{__cc}" \
-	server \
-	client
+	CC="%{__cc}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -105,8 +103,7 @@ fi
 %defattr(644,root,root,755)
 %doc CHANGELOG FUN LICENSE GUIDELINES RELNOTES TODO VERSION WILD-IDEAS 
 %doc server.conf server-stateless.conf doc/man/dibbler-server.8
-%attr(755,root,root) 
-%{_sbindir}/dibbler-server
+%attr(755,root,root) %{_sbindir}/dibbler-server
 %dir %{_sharedstatedir}/%{name}
 %config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/server.conf
 %{_mandir}/man8/*.8*
@@ -115,7 +112,7 @@ fi
 %defattr(644,root,root,755)
 %doc CHANGELOG FUN LICENSE GUIDELINES RELNOTES TODO VERSION WILD-IDEAS
 %doc client.conf client-stateless.conf doc/man/dibbler-client.8
-%{_sbindir}/dibbler-client
+%attr(755,root,root) %{_sbindir}/dibbler-client
 %dir %{_sharedstatedir}/%{name}
 %config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/client.conf
 %{_mandir}/man8/*.8*
