@@ -42,15 +42,15 @@ Summary(pl):	Dokumentacja dla Dibblera - przeno¶nego DHCPv6
 Group:		Documentation
 
 %description doc
-Documentation for Dibbler - a portable DHCPv6 (pdf files)
+Documentation for Dibbler - a portable DHCPv6 (pdf files).
 
 %description doc -l pl
-Dokumentacja dla Dibblera - przeno¶nego DHCPv6 (pliki pdf)
+Dokumentacja dla Dibblera - przeno¶nego DHCPv6 (pliki pdf).
 
 %package client
 Summary:	Dibbler DHCPv6 client
 Summary(pl):	Dibbler - klient DHCPv6
-Group:		Networking/Daemons
+Group:		Applications/Networking
 Provides:	dhcpv6-client
 
 %description client
