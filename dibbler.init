@@ -1,8 +1,12 @@
 #!/bin/sh
 # 
 # dibbler	DHCPv6 Server
+#
 # chkconfig:	345 93 11
-# description:	portable DHCPv6
+
+# description:	dibbler is a portable DHCPv6 implementation. It supports stateful \
+#		(i.e. IPv6 address granting) as well as stateless (i.e. option \
+#		granting) autoconfiguration for IPv6.long service description.
 # pidfile:	/var/run/dibbler.pid
 # config:	/var/lib/dibbler/server.conf
 
