@@ -77,26 +77,21 @@ install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8} \
 install dibbler-{client,server} $RPM_BUILD_ROOT%{_sbindir}
 install *.conf $RPM_BUILD_ROOT%{_sharedstatedir}/%{name}
 install doc/man/* $RPM_BUILD_ROOT%{_mandir}/man8
+ln -s %{_sharedstatedir}/%{name}/server.conf %{_sysconfdir}/%{name}/server.conf
+ln -s %{_sharedstatedir}/%{name}/client.conf %{_sysconfdir}/%{name}/client.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
-ln -s %{_sharedstatedir}/%{name}/server.conf %{_sysconfdir}/%{name}/server.conf
 /sbin/chkconfig -add dibbler
 
 %preun
 if [ "$1" = "0" ];then
-        if [ -f /var/lock/subsys/dhcpd ]; then
-                /etc/rc.d/init.d/dhcpd stop >&2
-        fi
-        /sbin/chkconfig --del dhcpd
-fi
-
-%post client
-if [ -d %{_sharedstatedir}/%{name} ]; then
-install -d %{_sharedstatedir}/%{name}
-ln -s %{_sharedstatedir}/%{name}/client.conf %{_sysconfdir}/%{name}/client.conf
+	if [ -f /var/lock/subsys/dhcpd ]; then
+		/etc/rc.d/init.d/dhcpd stop >&2
+	fi
+	/sbin/chkconfig --del dhcpd
 fi
 
 %files
@@ -106,6 +101,8 @@ fi
 %attr(755,root,root) %{_sbindir}/dibbler-server
 %dir %{_sharedstatedir}/%{name}
 %config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/server.conf
+%dir %{_sysconfdir}/%{name}
+%{_sysconfdir}/%{name}/server.conf
 %{_mandir}/man8/*.8*
 
 %files client
@@ -115,6 +112,8 @@ fi
 %attr(755,root,root) %{_sbindir}/dibbler-client
 %dir %{_sharedstatedir}/%{name}
 %config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/client.conf
+%dir %{_sysconfdir}/%{name}
+%{_sysconfdir}/%{name}/client.conf
 %{_mandir}/man8/*.8*
 
 #%files doc
