@@ -5,9 +5,9 @@ Version:	0.4.0
 Release:	0.3
 License:	GPL v2
 Group:		Networking/Daemons
-Source0:	http://klub.com.pl/dhcpv6/%{name}/%{name}-%{version}-src.tar.gz
+Source0:	http://klub.com.pl/dhcpv6/dibbler/%{name}-%{version}-src.tar.gz
 # Source0-md5:	2056e15305c9e5432bf7ad853e3f864c
-Source1:	http://klub.com.pl/dhcpv6/%{name}/%{name}-%{version}-doc.tar.gz
+Source1:	http://klub.com.pl/dhcpv6/dibbler/%{name}-%{version}-doc.tar.gz
 # Source1-md5:	576168d8cf3eb5ffe82dde05338cb902
 Source2:	%{name}.init
 URL:		http://klub.com.pl/dhcpv6/
@@ -131,7 +131,9 @@ fi
 %doc CHANGELOG LICENSE RELNOTES VERSION
 %doc client.conf client-stateless.conf doc/man/dibbler-client.8
 %attr(755,root,root) %{_sbindir}/dibbler-client
+%dir %{_sharedstatedir}/%{name}
 %config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/client.conf
+%dir %{_sysconfdir}/%{name}
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/client.conf
 %{_mandir}/man8/*.8*
 
