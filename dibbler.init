@@ -33,9 +33,10 @@ case "$1" in
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/dibbler ]; then
 		msg_starting dibbler
-		daemon dibbler-server
+		dibbler-server start
 		RETVAL=$?
-		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/dibbler
+		[ $RETVAL -eq 0 ] && 
+		touch /var/lock/subsys/dibbler
 	else
 		msg_already_running dibbler
 	fi
@@ -44,7 +45,7 @@ case "$1" in
 	# Stop daemons.
 	if [ -f /var/lock/subsys/dibbler ]; then
 		msg_stopping dibbler
-		killproc dibbler-server
+		dibbler-server stop
 		RET=$?
 		if [ $RET -eq 0 ]; then
 			rm -f /var/lock/subsys/dibbler /var/run/dibbler.pid >/dev/null 2>&1
@@ -54,7 +55,7 @@ case "$1" in
 	fi
 	;;
   status)
-	status dibbler
+	dibbler-server status
 	;;
   reload|restart)
   	$0 stop
