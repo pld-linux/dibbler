@@ -1,14 +1,14 @@
 Summary:	Dibbler - a portable DHCPv6
 Summary(pl):	Dibbler - przeno¶ny DHCPv6
 Name:		dibbler
-Version:	0.3.1
+Version:	0.4.0
 Release:	0.3
 License:	GPL v2
 Group:		Networking/Daemons
 Source0:	http://klub.com.pl/dhcpv6/%{name}-%{version}-src.tar.gz
-# Source0-md5:	6bc2b0932f1000ad50624789873115d8
+# Source0-md5:	2056e15305c9e5432bf7ad853e3f864c
 Source1:	http://klub.com.pl/dhcpv6/%{name}-%{version}-doc.tar.gz
-# Source1-md5:	615c798ab2ca3b4203a7b0df3187c3d6
+# Source1-md5:	576168d8cf3eb5ffe82dde05338cb902
 Source2:	%{name}.init
 Patch0:		%{name}-Makefile.patch
 URL:		http://klub.com.pl/dhcpv6/
@@ -60,11 +60,11 @@ DHCPv6 protocol client.
 Klient protoko³u DHCPv6.
 
 %prep
-%setup -q -n %{name}
-%patch0 -p0
+%setup -q -n %{name}-%{version}
+#%patch0 -p0
 
 %build
-%{__make} server client \
+%{__make} server client relay\
 	ARCH=LINUX \
 	CFLAGS="%{rpmcflags}" \
 	CPP="%{__cpp}" \
@@ -76,14 +76,16 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8} \
 	$RPM_BUILD_ROOT{%{_sharedstatedir}/%{name},%{_sysconfdir}/{rc.d/init.d,dibbler}}
 
-install dibbler-{client,server} $RPM_BUILD_ROOT%{_sbindir}
+install dibbler-{client,server,relay} $RPM_BUILD_ROOT%{_sbindir}
 install *.conf $RPM_BUILD_ROOT%{_sharedstatedir}/%{name}
 install doc/man/* $RPM_BUILD_ROOT%{_mandir}/man8
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/dibbler
 tar zxf %{SOURCE1} doc/dibbler-user.pdf
 tar zxf %{SOURCE1} doc/dibbler-devel.pdf
-ln -sf %{_sharedstatedir}/%{name}/server.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/server.conf
 ln -sf %{_sharedstatedir}/%{name}/client.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/client.conf
+ln -sf %{_sharedstatedir}/%{name}/relay.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/relay.conf
+ln -sf %{_sharedstatedir}/%{name}/server.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/server.conf
+ln -sf %{_sharedstatedir}/%{name}/server-relay.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/server-relay.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -112,13 +114,18 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc CHANGELOG LICENSE RELNOTES VERSION 
-%doc server.conf server-stateless.conf doc/man/dibbler-server.8
+%doc server.conf server-stateless.conf server-relay.conf doc/man/dibbler-server.8
 %attr(755,root,root) %{_sbindir}/dibbler-server
+%attr(755,root,root) %{_sbindir}/dibbler-relay
 %attr(754,root,root) /etc/rc.d/init.d/dibbler
 %dir %{_sharedstatedir}/%{name}
+%config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/relay.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/server.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/server-relay.conf
 %dir %{_sysconfdir}/%{name}
+%{_sysconfdir}/%{name}/relay.conf
 %{_sysconfdir}/%{name}/server.conf
+%{_sysconfdir}/%{name}/server-relay.conf
 %{_mandir}/man8/*.8*
 
 %files client
