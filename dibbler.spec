@@ -16,7 +16,7 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	libxml2-devel
 BuildRequires:	pkgconfig
 Requires(post,preun):	/sbin/chkconfig
-#Provides:	dhcpv6-server ?
+#Provides:	dhcpv6-server
 Obsoletes:	dhcpv6
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -52,6 +52,7 @@ dokumentacja (zarówno dla u¿ytkowników, jak i programistów).
 Summary:	Dibbler DHCPv6 client
 Summary(pl):	Dibbler - klient DHCPv6
 Group:		Networking/Daemons
+#Provides:	dhcpv6-client
 
 %description client
 DHCPv6 protocol client.
@@ -64,12 +65,12 @@ Klient protoko³u DHCPv6.
 %patch0 -p0
 
 %build
-#%{__make} server client \
-#	ARCH=LINUX \
-#	CFLAGS="%{rpmcflags}" \
-#	CPP="%{__cpp}" \
-#	CXX="%{__cxx}" \
-#	CC="%{__cc}"
+%{__make} server client \
+	ARCH=LINUX \
+	CFLAGS="%{rpmcflags}" \
+	CPP="%{__cpp}" \
+	CXX="%{__cxx}" \
+	CC="%{__cc}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
