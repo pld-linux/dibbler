@@ -46,16 +46,16 @@ dokumentacja (zarówno dla u¿ytkowników, jak i programistów).
 #%description doc -l pl
 #Dokumentacja dla Dibblera - przeno¶nego DHCPv6
 
-#%package client
-#Summary:	Dibbler DHCPv6 client
-#Summary(pl):	Dibbler - klient DHCPv6
-#Group:		Networking/Daemons
+%package client
+Summary:	Dibbler DHCPv6 client
+Summary(pl):	Dibbler - klient DHCPv6
+Group:		Networking/Daemons
 
-#%description client
-#DHCPv6 protocol client.
+%description client
+DHCPv6 protocol client.
 
-#%description client -l pl
-#Klient protokolu DHCPv6
+%description client -l pl
+Klient protokolu DHCPv6
 
 %prep
 %setup -q -n %{name}
@@ -84,7 +84,6 @@ install doc/man/* $RPM_BUILD_ROOT%{_mandir}/man8
 rm -rf $RPM_BUILD_ROOT
 
 %post
-ln -s %{_sharedstatedir}/%{name}/client.conf %{_sysconfdir}/%{name}/client.conf
 ln -s %{_sharedstatedir}/%{name}/server.conf %{_sysconfdir}/%{name}/server.conf
 /sbin/chkconfig -add dibbler
 
@@ -96,20 +95,29 @@ if [ "$1" = "0" ];then
         /sbin/chkconfig --del dhcpd
 fi
 
-#%post client
-#if [ -d %{_sharedstatedir}/%{name} ]; then
-#install -d %{_sharedstatedir}/%{name}
-#fi
+%post client
+if [ -d %{_sharedstatedir}/%{name} ]; then
+install -d %{_sharedstatedir}/%{name}
+ln -s %{_sharedstatedir}/%{name}/client.conf %{_sysconfdir}/%{name}/client.conf
+fi
 
 %files
 %defattr(644,root,root,755)
 %doc CHANGELOG FUN LICENSE GUIDELINES RELNOTES TODO VERSION WILD-IDEAS 
-%doc server.conf server-stateless.conf doc/man/*
-%attr(755,root,root) %{_sbindir}/*
+%doc server.conf server-stateless.conf doc/man/dibbler-server.8
+%attr(755,root,root) 
 %{_sbindir}/dibbler-server
+%dir %{_sharedstatedir}/%{name}
+%config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/server.conf
+%{_mandir}/man8/*.8*
+
+%files client
+%defattr(644,root,root,755)
+%doc CHANGELOG FUN LICENSE GUIDELINES RELNOTES TODO VERSION WILD-IDEAS
+%doc client.conf client-stateless.conf doc/man/dibbler-client.8
 %{_sbindir}/dibbler-client
 %dir %{_sharedstatedir}/%{name}
-%config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/*.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/client.conf
 %{_mandir}/man8/*.8*
 
 #%files doc
