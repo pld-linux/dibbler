@@ -77,14 +77,14 @@ install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8} \
 install dibbler-{client,server} $RPM_BUILD_ROOT%{_sbindir}
 install *.conf $RPM_BUILD_ROOT%{_sharedstatedir}/%{name}
 install doc/man/* $RPM_BUILD_ROOT%{_mandir}/man8
-ln -s %{_sharedstatedir}/%{name}/server.conf %{_sysconfdir}/%{name}/server.conf
-ln -s %{_sharedstatedir}/%{name}/client.conf %{_sysconfdir}/%{name}/client.conf
+ln -sf %{_sharedstatedir}/%{name}/server.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/server.conf
+ln -sf %{_sharedstatedir}/%{name}/client.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/client.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/sbin/chkconfig -add dibbler
+/sbin/chkconfig --add dibbler
 
 %preun
 if [ "$1" = "0" ];then
