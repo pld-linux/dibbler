@@ -2,11 +2,12 @@ Summary:	Dibbler - a portable DHCPv6
 Summary(pl):	Dibbler - przeno¶ny DHCPv6
 Name:		dibbler
 Version:	0.3.1
-Release:	0.2
+Release:	0.3
 License:	GPL v2
 Group:		Networking/Daemons
 Source0:	http://klub.com.pl/dhcpv6/%{name}-%{version}-src.tar.gz
 # Source0-md5:	6bc2b0932f1000ad50624789873115d8
+Source1:	%{name}.init
 Patch0:		%{name}-Makefile.patch
 URL:		http://klub.com.pl/dhcpv6/
 #BuildRequires:	bison++ >= 1.21.9
@@ -15,7 +16,8 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	libxml2-devel
 BuildRequires:	pkgconfig
 Requires(post,preun):	/sbin/chkconfig
-#Provides:	dhcpd?
+#Provides:	dhcpv6-server ?
+Obsoletes:	dhcpv6
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -62,21 +64,22 @@ Klient protoko³u DHCPv6.
 %patch0 -p0
 
 %build
-%{__make} server client \
-	ARCH=LINUX \
-	CFLAGS="%{rpmcflags}" \
-	CPP="%{__cpp}" \
-	CXX="%{__cxx}" \
-	CC="%{__cc}"
+#%{__make} server client \
+#	ARCH=LINUX \
+#	CFLAGS="%{rpmcflags}" \
+#	CPP="%{__cpp}" \
+#	CXX="%{__cxx}" \
+#	CC="%{__cc}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8} \
-	$RPM_BUILD_ROOT{%{_sharedstatedir}/%{name},%{_sysconfdir}/%{name}}
+	$RPM_BUILD_ROOT{%{_sharedstatedir}/%{name},%{_sysconfdir}/{rc.d/init.d,dibbler}}
 
 install dibbler-{client,server} $RPM_BUILD_ROOT%{_sbindir}
 install *.conf $RPM_BUILD_ROOT%{_sharedstatedir}/%{name}
 install doc/man/* $RPM_BUILD_ROOT%{_mandir}/man8
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/dibbler
 ln -sf %{_sharedstatedir}/%{name}/server.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/server.conf
 ln -sf %{_sharedstatedir}/%{name}/client.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/client.conf
 
@@ -105,9 +108,10 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGELOG FUN LICENSE GUIDELINES RELNOTES TODO VERSION WILD-IDEAS 
+%doc CHANGELOG LICENSE RELNOTES VERSION 
 %doc server.conf server-stateless.conf doc/man/dibbler-server.8
 %attr(755,root,root) %{_sbindir}/dibbler-server
+%attr(754,root,root) /etc/rc.d/init.d/dibbler
 %dir %{_sharedstatedir}/%{name}
 %config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/server.conf
 %dir %{_sysconfdir}/%{name}
