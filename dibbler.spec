@@ -10,11 +10,11 @@ Source0:	http://klub.com.pl/dhcpv6/%{name}-%{version}-src.tar.gz
 Patch0:		%{name}-Makefile.patch
 URL:		http://klub.com.pl/dhcpv6/
 #BuildRequires:	bison++ >= 1.21.9
-BuildRequires:	chkconfig
 BuildRequires:	flex
 BuildRequires:	libstdc++-devel
 BuildRequires:	libxml2-devel
 BuildRequires:	pkgconfig
+Requires:	chkconfig
 #Provides:	dhcpd?
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
