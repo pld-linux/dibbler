@@ -93,7 +93,7 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/ldconfig
 if [ "$1" = "1" ]; then
-#	/sbin/chkconfig --add dibbler
+	/sbin/chkconfig --add dibbler
 	if [ -f /var/lock/subsys/dibbler ]; then
         	/etc/rc.d/init.d/dibbler restart 1>&2
 	else
@@ -108,7 +108,7 @@ if [ "$1" = "0" ];then
 	if [ -f /var/lock/subsys/dibbler ]; then
 		/etc/rc.d/init.d/dibbler stop >&2
 	fi
-#	/sbin/chkconfig --del dibbler
+	/sbin/chkconfig --del dibbler
 fi
 
 %files
