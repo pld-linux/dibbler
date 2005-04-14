@@ -2,7 +2,7 @@ Summary:	Dibbler - a portable DHCPv6
 Summary(pl):	Dibbler - przeno¶ny DHCPv6
 Name:		dibbler
 Version:	0.4.0
-Release:	1.0
+Release:	1
 License:	GPL v2
 Group:		Networking/Daemons
 Source0:	http://klub.com.pl/dhcpv6/dibbler/%{name}-%{version}-src.tar.gz
