@@ -5,9 +5,9 @@ Version:	0.4.1
 Release:	1
 License:	GPL v2
 Group:		Networking/Daemons
-Source0:	http://mesh.dl.sourceforge.net/sourceforge/dibbler/%{name}-%{version}-src.tar.gz
+Source0:	http://dl.sourceforge.net/dibbler/%{name}-%{version}-src.tar.gz
 # Source0-md5:	e9c25cc84b881309bbb650d2d36c5fb0
-Source1:	http://mesh.dl.sourceforge.net/sourceforge/dibbler/%{name}-%{version}-doc.tar.gz
+Source1:	http://dl.sourceforge.net/dibbler/%{name}-%{version}-doc.tar.gz
 # Source1-md5:	d7ee175bb1994b597e07583f4cc0113f
 Source2:	%{name}.init
 URL:		http://sourceforge.net/projects/dibbler/
