@@ -1,16 +1,16 @@
 Summary:	Dibbler - a portable DHCPv6
 Summary(pl):	Dibbler - przeno¶ny DHCPv6
 Name:		dibbler
-Version:	0.4.0
+Version:	0.4.1
 Release:	1
 License:	GPL v2
 Group:		Networking/Daemons
-Source0:	http://klub.com.pl/dhcpv6/dibbler/%{name}-%{version}-src.tar.gz
-# Source0-md5:	2056e15305c9e5432bf7ad853e3f864c
-Source1:	http://klub.com.pl/dhcpv6/dibbler/%{name}-%{version}-doc.tar.gz
-# Source1-md5:	576168d8cf3eb5ffe82dde05338cb902
+Source0:	http://mesh.dl.sourceforge.net/sourceforge/dibbler/%{name}-%{version}-src.tar.gz
+# Source0-md5:	e9c25cc84b881309bbb650d2d36c5fb0
+Source1:	http://mesh.dl.sourceforge.net/sourceforge/dibbler/%{name}-%{version}-doc.tar.gz
+# Source1-md5:	d7ee175bb1994b597e07583f4cc0113f
 Source2:	%{name}.init
-URL:		http://klub.com.pl/dhcpv6/
+URL:		http://sourceforge.net/projects/dibbler/
 BuildRequires:	libstdc++-devel
 BuildRequires:	pkgconfig
 Requires(post,preun):	/sbin/chkconfig
@@ -81,9 +81,11 @@ install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/dibbler
 tar zxf %{SOURCE1} doc/dibbler-user.pdf
 tar zxf %{SOURCE1} doc/dibbler-devel.pdf
 ln -sf %{_sharedstatedir}/%{name}/client.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/client.conf
+ln -sf %{_sharedstatedir}/%{name}/client-stateless.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/client-stateless.conf
 ln -sf %{_sharedstatedir}/%{name}/relay.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/relay.conf
 ln -sf %{_sharedstatedir}/%{name}/server.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/server.conf
 ln -sf %{_sharedstatedir}/%{name}/server-relay.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/server-relay.conf
+ln -sf %{_sharedstatedir}/%{name}/server-stateless.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/server-stateless.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -118,12 +120,20 @@ fi
 %attr(754,root,root) /etc/rc.d/init.d/dibbler
 %dir %{_sharedstatedir}/%{name}
 %config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/relay.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/2relays-client.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/2relays-relay1.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/2relays-relay2.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/2relays-server.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/relay-1interface.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/server.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/server-relay.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/server-3classes.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/server-stateless.conf
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/relay.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/server.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/server-relay.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/server-stateless.conf
 %{_mandir}/man8/*.8*
 
 %files client
@@ -133,8 +143,10 @@ fi
 %attr(755,root,root) %{_sbindir}/dibbler-client
 %dir %{_sharedstatedir}/%{name}
 %config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/client.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sharedstatedir}/%{name}/client-stateless.conf
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/client.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/client-stateless.conf
 %{_mandir}/man8/*.8*
 
 %files doc
