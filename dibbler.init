@@ -1,5 +1,5 @@
 #!/bin/sh
-# 
+#
 # dibbler	DHCPv6 Server
 #
 # chkconfig:	345 93 11
@@ -37,8 +37,7 @@ case "$1" in
 		msg_starting dibbler
 		daemon /usr/sbin/dibbler-server start
 		RETVAL=$?
-		[ $RETVAL -eq 0 ] && 
-		touch /var/lock/subsys/dibbler
+		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/dibbler
 	else
 		msg_already_running dibbler
 	fi
