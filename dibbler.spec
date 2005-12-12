@@ -113,7 +113,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGELOG RELNOTES VERSION 
+%doc CHANGELOG RELNOTES VERSION
 %doc server.conf server-stateless.conf server-relay.conf doc/man/dibbler-server.8
 %attr(755,root,root) %{_sbindir}/dibbler-server
 %attr(755,root,root) %{_sbindir}/dibbler-relay
