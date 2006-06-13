@@ -134,11 +134,12 @@ fi
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/server.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/server-relay.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/server-stateless.conf
-%{_mandir}/man8/*.8*
+%{_mandir}/man8/*-server.*
+%{_mandir}/man8/*-relay.*
 
 %files client
 %defattr(644,root,root,755)
-%doc CHANGELOG LICENSE RELNOTES VERSION
+%doc CHANGELOG RELNOTES VERSION
 %doc client.conf client-stateless.conf doc/man/dibbler-client.8
 %attr(755,root,root) %{_sbindir}/dibbler-client
 %dir %{_sharedstatedir}/%{name}
@@ -147,7 +148,7 @@ fi
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/client.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/client-stateless.conf
-%{_mandir}/man8/*.8*
+%{_mandir}/man8/*-client.*
 
 %files doc
 %defattr(644,root,root,755)
