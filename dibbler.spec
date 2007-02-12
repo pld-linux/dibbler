@@ -1,5 +1,5 @@
 Summary:	Dibbler - a portable DHCPv6
-Summary(pl.UTF-8):   Dibbler - przenośny DHCPv6
+Summary(pl.UTF-8):	Dibbler - przenośny DHCPv6
 Name:		dibbler
 Version:	0.4.1
 Release:	1
@@ -37,7 +37,7 @@ dokumentacja (zarówno dla użytkowników, jak i programistów).
 
 %package doc
 Summary:	Documentation for Dibbler - a portable DHCPv6
-Summary(pl.UTF-8):   Dokumentacja dla Dibblera - przenośnego DHCPv6
+Summary(pl.UTF-8):	Dokumentacja dla Dibblera - przenośnego DHCPv6
 Group:		Documentation
 
 %description doc
@@ -48,7 +48,7 @@ Dokumentacja dla Dibblera - przenośnego DHCPv6 (pliki pdf).
 
 %package client
 Summary:	Dibbler DHCPv6 client
-Summary(pl.UTF-8):   Dibbler - klient DHCPv6
+Summary(pl.UTF-8):	Dibbler - klient DHCPv6
 Group:		Applications/Networking
 Provides:	dhcpv6-client
 
