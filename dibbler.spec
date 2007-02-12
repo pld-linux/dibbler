@@ -1,5 +1,5 @@
 Summary:	Dibbler - a portable DHCPv6
-Summary(pl):	Dibbler - przeno¶ny DHCPv6
+Summary(pl.UTF-8):   Dibbler - przenoÅ›ny DHCPv6
 Name:		dibbler
 Version:	0.4.1
 Release:	1
@@ -27,36 +27,36 @@ use install packages (Clickable Windows installer and RPM and DEB
 packages for Linux) and extensive documentation (both for users as
 well as developers).
 
-%description -l pl
-Dibbler to przeno¶na implementacja DHCPv6. Obs³uguje stanow± (tzn. z
-nadawaniem adresów IPv6), jak i bezstanow± (tzn. z nadawaniem opcji)
-autokonfiguracjê IPv6. Aktualnie dostêpne s± porty dla Linuksa 2.4/2.6
-i Windows XP oraz Windows 2003. Zalety to ³atwa instalacja (klikalny
-instalator pod Windows i pakiety RPM/DEB pod Linuksa) i wyczerpuj±ca
-dokumentacja (zarówno dla u¿ytkowników, jak i programistów).
+%description -l pl.UTF-8
+Dibbler to przenoÅ›na implementacja DHCPv6. ObsÅ‚uguje stanowÄ… (tzn. z
+nadawaniem adresÃ³w IPv6), jak i bezstanowÄ… (tzn. z nadawaniem opcji)
+autokonfiguracjÄ™ IPv6. Aktualnie dostÄ™pne sÄ… porty dla Linuksa 2.4/2.6
+i Windows XP oraz Windows 2003. Zalety to Å‚atwa instalacja (klikalny
+instalator pod Windows i pakiety RPM/DEB pod Linuksa) i wyczerpujÄ…ca
+dokumentacja (zarÃ³wno dla uÅ¼ytkownikÃ³w, jak i programistÃ³w).
 
 %package doc
 Summary:	Documentation for Dibbler - a portable DHCPv6
-Summary(pl):	Dokumentacja dla Dibblera - przeno¶nego DHCPv6
+Summary(pl.UTF-8):   Dokumentacja dla Dibblera - przenoÅ›nego DHCPv6
 Group:		Documentation
 
 %description doc
 Documentation for Dibbler - a portable DHCPv6 (pdf files).
 
-%description doc -l pl
-Dokumentacja dla Dibblera - przeno¶nego DHCPv6 (pliki pdf).
+%description doc -l pl.UTF-8
+Dokumentacja dla Dibblera - przenoÅ›nego DHCPv6 (pliki pdf).
 
 %package client
 Summary:	Dibbler DHCPv6 client
-Summary(pl):	Dibbler - klient DHCPv6
+Summary(pl.UTF-8):   Dibbler - klient DHCPv6
 Group:		Applications/Networking
 Provides:	dhcpv6-client
 
 %description client
 DHCPv6 protocol client.
 
-%description client -l pl
-Klient protoko³u DHCPv6.
+%description client -l pl.UTF-8
+Klient protokoÅ‚u DHCPv6.
 
 %prep
 %setup -q
